@@ -1,4 +1,4 @@
-package com.slackworks.command;
+package com.tobedevoured.command;
 
 import java.util.HashMap;
 import java.util.Map;

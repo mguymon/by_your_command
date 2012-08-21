@@ -1,4 +1,4 @@
-package com.slackworks.command;
+package com.tobedevoured.command;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -9,6 +9,8 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.tobedevoured.command.ByYourCommandManager;
 
 public class ExecCommandManagerTest {
 	

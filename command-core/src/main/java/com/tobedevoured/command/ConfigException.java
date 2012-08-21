@@ -1,4 +1,4 @@
-package com.slackworks.command;
+package com.tobedevoured.command;
 
 public class ConfigException extends Exception {
 

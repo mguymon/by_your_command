@@ -1,4 +1,4 @@
-package com.slackworks.command;
+package com.tobedevoured.command;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -14,11 +14,11 @@ import org.modeshape.common.text.Inflector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.slackworks.command.annotation.Command;
-import com.slackworks.command.annotation.CommandParam;
-import com.slackworks.command.annotation.CommandParams;
-import com.slackworks.command.annotation.ByYourCommand;
-import com.slackworks.command.annotation.ByYourCommandGroup;
+import com.tobedevoured.command.annotation.ByYourCommand;
+import com.tobedevoured.command.annotation.ByYourCommandGroup;
+import com.tobedevoured.command.annotation.Command;
+import com.tobedevoured.command.annotation.CommandParam;
+import com.tobedevoured.command.annotation.CommandParams;
 
 /**
  * Manages the creation and execution of commands.

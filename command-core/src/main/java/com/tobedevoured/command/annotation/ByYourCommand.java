@@ -1,4 +1,4 @@
-package com.slackworks.command.annotation;
+package com.tobedevoured.command.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

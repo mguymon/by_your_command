@@ -1,4 +1,4 @@
-package com.slackworks.command;
+package com.tobedevoured.command;
 
 import static org.junit.Assert.*;
 
@@ -9,7 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.slackworks.command.Runner;
+import com.tobedevoured.command.Runner;
 
 
 public class RunnerTest {

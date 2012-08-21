@@ -1,4 +1,4 @@
-package com.slackworks.command;
+package com.tobedevoured.command;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Level;
 
-import com.slackworks.command.LogUtil;
+import com.tobedevoured.command.LogUtil;
 
 /**
  * Plan for executing {@link CommandMethod} on target Bean 

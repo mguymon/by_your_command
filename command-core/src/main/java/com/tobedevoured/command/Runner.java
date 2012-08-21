@@ -1,4 +1,4 @@
-package com.slackworks.command;
+package com.tobedevoured.command;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Level;
 
-import com.slackworks.command.LogUtil;
+import com.tobedevoured.command.LogUtil;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 

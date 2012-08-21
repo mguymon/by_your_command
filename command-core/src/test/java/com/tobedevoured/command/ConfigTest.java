@@ -1,4 +1,4 @@
-package com.slackworks.command;
+package com.tobedevoured.command;
 
 import static org.junit.Assert.*;
 
@@ -9,12 +9,13 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.typesafe.config.ConfigFactory;
+
 public class ConfigTest {
 
-	ConfigFactory config;
 	
 	@Test
 	public void getPackages() throws IOException {
-		assertEquals( Arrays.asList( "com.slackworks.command" ), ConfigFactory.load("test").getAnyRefList("command.packages") );
+		assertEquals( Arrays.asList( "com.tobedevoured.command" ), ConfigFactory.load("test").getAnyRefList("command.packages") );
 	}
 }

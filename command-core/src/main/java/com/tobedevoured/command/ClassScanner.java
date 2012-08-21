@@ -1,4 +1,4 @@
-package com.slackworks.command;
+package com.tobedevoured.command;
 
 import com.metapossum.utils.scanner.reflect.ClassesInPackageScanner;
 
