@@ -42,7 +42,7 @@ Screenshot of the Text Runner
 		    System.out.println( "Zzzzzz" ); 
 	    }
 
-            @Command
+      @Command
 	    @CommandParam(name = "with", type = String.class)
 	    public void play( String with ) {
 		    System.out.println( with + " is fun" ); 
