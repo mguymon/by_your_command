@@ -68,8 +68,7 @@ public class LogUtil {
 			logLevel = Level.INFO;
 		}
 		
-		final Logger log = (Logger)LoggerFactory.getLogger(logger);
-	 	log.setLevel( logLevel );
+		changeLevel( logger, level );
 	}
 	
 	/**

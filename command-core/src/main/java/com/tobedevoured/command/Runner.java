@@ -85,7 +85,7 @@ public class Runner {
 	}
 	
 	public void shutdown(boolean hasError) {
-	 	LogUtil.errorOnlyLogging();
+		LogUtil.errorOnlyLogging();
 
 		if ( ALLOW_SYSTEM_EXIT ) {
 			if ( hasError ) {
@@ -472,5 +472,15 @@ public class Runner {
 				gui();
 			}
 		}
+	}
+	
+	/**
+	 * Alias for {@link #run(String[])}
+	 * 
+	 * @param args String[] args
+	 * @throws RunException
+	 */
+	public static void main(String[] args) throws RunException {
+		Runner.run(args);
 	}
 }
