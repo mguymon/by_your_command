@@ -1,19 +1,19 @@
 package com.tobedevoured.command;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+import static com.tobedevoured.command.TestHelper.*;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.io.ByteArrayOutputStream;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.qos.logback.classic.Level;
+
 import com.tobedevoured.command.ByYourCommandManager;
+import com.tobedevoured.testcommands.Hamster;
+import com.tobedevoured.testcommands.Lizard;
 
 public class ByYourCommandManagerTest {
 	
@@ -23,15 +23,104 @@ public class ByYourCommandManagerTest {
 	@Before
 	public void setup() throws Exception {
 		manager = new ByYourCommandManager();
-		manager.scanForCommands( "com.tobedevoured.testcommands" );
 	}
 	
 	@Test
-	public void getCommandsDesc() {
+	public void constructor() {
+		assertNotNull( manager.getPlans() );
+		assertNotNull( manager.getCommands() );
+		assertNotNull( manager.getCommandsDesc() );
+		assertNotNull( manager.getGroups() );
+	}
+	
+	@Test
+	public void createObjectPlan() {
+		assertNotNull( manager.createObjectPlan() );
+	}
+	
+	@Test
+	public void scanForCommands() throws CommandException {
+		manager.scanForCommands( "com.tobedevoured.testcommands" );
+		
+		assertEquals( toSet( Lizard.class, Hamster.class ), manager.getPlans().keySet() );
+		
+		Planable plan = manager.getPlans().get( Lizard.class );
+		assertEquals( "lazy", plan.getDefaultCommand().getName() );
+		assertEquals( "lanky", plan.getTargetGroup() );
+		assertEquals( "lizard", plan.getTargetName() );
+		assertEquals( toSet( "crawl", "lazy", "lick" ), plan.getCommands().keySet() );
+		
+		plan = manager.getPlans().get( Hamster.class );
+		assertNull( plan.getDefaultCommand() );
+		assertEquals( "testcommands", plan.getTargetGroup() );
+		assertEquals( "hamster", plan.getTargetName() );
+		assertEquals( toSet( "eat", "sleep" ), plan.getCommands().keySet() );
+		
+		assertEquals( toSet( 
+			"lanky:lizard:lick", "testcommands:hamster:eat", "testcommands:hamster:sleep", 
+			"lanky:lizard", "lanky:lizard:lazy", "lanky:lizard:crawl" ), manager.getCommands().keySet() );
+		
+		assertEquals( toSet( "testcommands", "lanky" ), manager.getGroups().keySet() );
+		
 		Set<String> descs = manager.getCommandsDesc();
 		
-		assertEquals( new TreeSet( Arrays.asList( 
-			"testcommands:hamster:eat", "testcommands:hamster:sleep", "testcommands:lizard:crawl", 
-			"testcommands:lizard:lazy", "testcommands:lizard:lick" ) ), descs );
+		assertEquals( toSet( 
+				"lanky:lizard", "lanky:lizard:crawl", "lanky:lizard:lazy", "lanky:lizard:lick", 
+				"testcommands:hamster:eat", "testcommands:hamster:sleep" ), descs );
 	}
+	
+	@Test
+	public void exec() throws Exception {
+		manager.scanForCommands( "com.tobedevoured.testcommands" );
+		
+		captureOutput( new CaptureTest() {
+			@Override
+			public void test(ByteArrayOutputStream outContent, ByteArrayOutputStream errContent) throws Exception {
+				LogUtil.changeRootLevel( Level.ERROR );
+				manager.exec( "lanky:lizard" );
+				LogUtil.changeRootLevel( Level.DEBUG );
+				assertEquals( "very\n", outContent.toString() );
+			}
+		});
+		
+		captureOutput( new CaptureTest() {
+			@Override
+			public void test(ByteArrayOutputStream outContent, ByteArrayOutputStream errContent) throws Exception {
+				LogUtil.changeRootLevel( Level.ERROR );
+				manager.exec( "lanky:lizard:lick" );
+				LogUtil.changeRootLevel( Level.DEBUG );
+				assertEquals( "lazy lanky lizards are unlikely to lick\n", outContent.toString() );
+			}
+		});
+	}
+	
+	@Test
+	public void execDefault() throws Exception {
+		manager.scanForCommands( "com.tobedevoured.testcommands" );
+		
+		captureOutput( new CaptureTest() {
+			@Override
+			public void test(ByteArrayOutputStream outContent, ByteArrayOutputStream errContent) throws Exception {
+				LogUtil.changeRootLevel( Level.ERROR );
+				manager.execDefault( Lizard.class );
+				LogUtil.changeRootLevel( Level.DEBUG );
+				assertEquals( "very\n", outContent.toString() );
+			}
+		});
+		
+		try {
+			captureOutput( new CaptureTest() {
+				@Override
+				public void test(ByteArrayOutputStream outContent, ByteArrayOutputStream errContent) throws Exception {
+					LogUtil.changeRootLevel( Level.ERROR );
+					manager.execDefault( Hamster.class );
+					LogUtil.changeRootLevel( Level.DEBUG );
+					assertEquals( "lazy lanky lizards are unlikely to lick\n", outContent.toString() );
+				}
+			});
+		} catch ( CommandException ex ) {
+			assertEquals( "Default method not set for class com.tobedevoured.testcommands.Hamster", ex.getMessage() );
+		}
+	}
+	
 }

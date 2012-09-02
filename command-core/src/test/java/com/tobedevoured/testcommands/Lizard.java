@@ -3,7 +3,7 @@ package com.tobedevoured.testcommands;
 import com.tobedevoured.command.annotation.ByYourCommand;
 import com.tobedevoured.command.annotation.Command;
 
-@ByYourCommand
+@ByYourCommand( group="lanky", defaultCommand="lazy" )
 public class Lizard {
 
 	@Command
@@ -18,6 +18,6 @@ public class Lizard {
 	
 	@Command
 	public void lick() {
-		System.out.println( "lazy lizards are unlikely to lick" );
+		System.out.println( "lazy lanky lizards are unlikely to lick" );
 	}
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.ConstructorUtils;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,10 +37,6 @@ public class SimplePlan implements Planable {
 	public SimplePlan() {
 		commands = new HashMap<String, CommandMethod>();
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.slackworks.command.Planable#buildTarget()
-	 */
 
 	public Object buildTarget() throws CommandException {
 		try {
@@ -54,19 +51,11 @@ public class SimplePlan implements Planable {
 			throw new CommandException(e);
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.slackworks.command.Planable#addCommand(com.slackworks.command.CommandMethod)
-	 */
 
 	public void addCommand( CommandMethod command ) {
 		commands.put(command.getName(), command );
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.slackworks.command.Planable#exec(java.util.List)
-	 */
-
 	public CommandMethod exec( List<Object> params ) throws CommandException {
 		if ( defaultCommand != null ) {
 			exec( defaultCommand, params );
@@ -76,10 +65,6 @@ public class SimplePlan implements Planable {
 		
 		return defaultCommand;
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.slackworks.command.Planable#exec(java.lang.String, java.util.List)
-	 */
 
 	public CommandMethod exec( String commandNotation, List<Object> params ) throws CommandException {
 		String[] notation = commandNotation.split(":");
@@ -107,10 +92,6 @@ public class SimplePlan implements Planable {
 		
 		return command;
 	}
-		
-	/* (non-Javadoc)
-	 * @see com.slackworks.command.Planable#exec(com.slackworks.command.CommandMethod, java.util.List)
-	 */
 
 	public CommandMethod exec( CommandMethod command, List<Object> params) throws CommandException {
 		
@@ -152,10 +133,6 @@ public class SimplePlan implements Planable {
 		
 		return command;
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.slackworks.command.Planable#commandsDesc()
-	 */
 
 	public List<String> commandsDesc() {
 		List<String> commandsDesc = new ArrayList<String>();
@@ -185,83 +162,53 @@ public class SimplePlan implements Planable {
 		return commandsDesc;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.slackworks.command.Planable#getDefaultCommand()
-	 */
-
 	public CommandMethod getDefaultCommand() {
 		return defaultCommand;
 	}
-
-	/* (non-Javadoc)
-	 * @see com.slackworks.command.Planable#setDefaultCommand(com.slackworks.command.CommandMethod)
-	 */
 
 	public void setDefaultCommand(CommandMethod defaultCommand) {
 		this.defaultCommand = defaultCommand;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.slackworks.command.Planable#getCommands()
-	 */
-
 	public Map<String, CommandMethod> getCommands() {
 		return commands;
 	}
-
-	/* (non-Javadoc)
-	 * @see com.slackworks.command.Planable#setCommands(java.util.Map)
-	 */
-
+	
 	public void setCommands(Map<String, CommandMethod> commands) {
 		this.commands = commands;
 	}
-
-	/* (non-Javadoc)
-	 * @see com.slackworks.command.Planable#getTarget()
-	 */
 
 	public Class getTarget() {
 		return target;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.slackworks.command.Planable#setTarget(java.lang.Class)
-	 */
-
 	public void setTarget(Class target) {
 		this.target = target;
 	}
-
-	/* (non-Javadoc)
-	 * @see com.slackworks.command.Planable#getTargetName()
-	 */
 
 	public String getTargetName() {
 		return targetName;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.slackworks.command.Planable#setTargetName(java.lang.String)
-	 */
-
 	public void setTargetName(String targetName) {
 		this.targetName = targetName;
 	}
-
-	/* (non-Javadoc)
-	 * @see com.slackworks.command.Planable#getTargetGroup()
-	 */
 
 	public String getTargetGroup() {
 		return targetGroup;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.slackworks.command.Planable#setTargetGroup(java.lang.String)
-	 */
-
 	public void setTargetGroup(String targetGroup) {
 		this.targetGroup = targetGroup;
+	}
+	
+	public String toString() {
+		return new ToStringBuilder(this)
+			.append( "targetGroup", this.targetGroup )
+			.append( "targetName", this.targetName )
+			.append( "target", this.target )
+			.append( "commandsDesc", this.commandsDesc() )
+			.toString();
+		
 	}
 }

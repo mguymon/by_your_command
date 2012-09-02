@@ -6,6 +6,8 @@ import java.util.Set;
 /**
  * The Dependencies required to execute a {@link CommandMethod}
  * 
+ * Contains functionality for unimplemented Spring support
+ * 
  * @author Michael Guymon
  */
 public class CommandDependency {

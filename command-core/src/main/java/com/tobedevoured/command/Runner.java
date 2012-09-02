@@ -103,9 +103,11 @@ public class Runner {
 	 * @return Set<String>
 	 * @throws CommandException
 	 */
+	/*
 	public Set<String> getCommandContexts( String commandNotation ) throws CommandException {
 		return this.manager.getCommandContexts( commandNotation );
 	}
+	*/
 	
 	/**
 	 * Get list of all commands

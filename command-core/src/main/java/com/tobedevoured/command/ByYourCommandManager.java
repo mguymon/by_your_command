@@ -379,6 +379,7 @@ public class ByYourCommandManager {
 	 * @return @{link Set<String>}
 	 * @throws CommandException
 	 */
+	/*
 	public Set<String> getCommandContexts( String commandNotation ) throws CommandException {
 		String[] notation = commandNotation.split(":");
 		
@@ -400,6 +401,7 @@ public class ByYourCommandManager {
 			}
 		}
 	}
+	*/
 	
 	/**
 	 * Get Map of {@link SimplePlan} for a Class
