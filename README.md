@@ -17,7 +17,15 @@ Dependency for Maven can use
 
 ## How Does it Work
 
- . . .
+By scanning the classpath for Classes annotated with @ByYourCommand, a methods are made executable by a GUI or from the command line. 
+
+Screenshot of the GUI Command Runner
+
+![Example GUI](https://raw.github.com/mguymon/by_your_command/master/gui_example.png)
+
+Screenshot of the Text Command Runner
+
+![Example CLI](https://raw.github.com/mguymon/by_your_command/master/cli_example.png)
 
 
 ## License

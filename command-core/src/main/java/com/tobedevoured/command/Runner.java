@@ -231,7 +231,7 @@ public class Runner {
 		
 		UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);
 		
-		final JFrame frame = new JFrame("Exec Command");
+		final JFrame frame = new JFrame("By Your Command");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(325,115);
 		frame.setLocationRelativeTo( null ); // center on screen
