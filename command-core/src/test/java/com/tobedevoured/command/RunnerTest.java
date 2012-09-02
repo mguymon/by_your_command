@@ -1,6 +1,7 @@
 package com.tobedevoured.command;
 
 import static org.junit.Assert.*;
+import static com.tobedevoured.command.TestHelper.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -18,24 +19,9 @@ import com.tobedevoured.command.Runner;
 
 public class RunnerTest {
 
-	private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-	private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
-	
 	@Before
 	public void setupRunner() {
 		Runner.ALLOW_SYSTEM_EXIT = false;
-	}
-	
-	@Before
-	public void setUpStreams() {
-	   System.setOut(new PrintStream(outContent));
-	   System.setErr(new PrintStream(errContent));
-	}
-	
-	@After
-	public void cleanUpStreams() {
-	    System.setOut(null);
-	    System.setErr(null);
 	}
 	
 	@Test
@@ -48,11 +34,53 @@ public class RunnerTest {
 	}
 	
 	@Test
-	public void execText() throws RunException {
-		LogUtil.changeRootLevel( Level.ERROR );
-		Runner.text( new String[] { "testcommands:hamster:eat" } );
-		assertEquals("Yum\n", outContent.toString());
-		LogUtil.changeRootLevel( Level.DEBUG );
+	public void execTextHelp() throws Exception {
+		captureOutput( new CaptureTest() {
+			@Override
+			public void test(ByteArrayOutputStream outContent, ByteArrayOutputStream errContent) throws Exception {
+				LogUtil.changeRootLevel( Level.ERROR );
+				Runner.text( new String[] { "--help" } );
+				assertEquals(
+					"\nCommands: \n" +
+					"  lanky:lizard\n" +
+					"  lanky:lizard:crawl\n" +
+					"  lanky:lizard:lazy\n" +
+					"  lanky:lizard:lick\n" +
+					"  testcommands:hamster:eat\n" +
+					"  testcommands:hamster:sleep\n" +
+					" \n" +
+					"Groups: \n" +
+					"  testcommands\n" +
+					"  lanky\n", outContent.toString());
+				LogUtil.changeRootLevel( Level.DEBUG );
+			}
+			
+		});	
+	}
+	
+	@Test
+	public void execText() throws Exception {
+		captureOutput( new CaptureTest() {
+			@Override
+			public void test(ByteArrayOutputStream outContent, ByteArrayOutputStream errContent) throws Exception {
+				LogUtil.changeRootLevel( Level.ERROR );
+				Runner.text( new String[] { "testcommands:hamster:eat" } );
+				assertEquals("Yum\n", outContent.toString());
+				LogUtil.changeRootLevel( Level.DEBUG );
+			}
+			
+		});	
+		
+		captureOutput( new CaptureTest() {
+			@Override
+			public void test(ByteArrayOutputStream outContent, ByteArrayOutputStream errContent) throws Exception {
+				LogUtil.changeRootLevel( Level.ERROR );
+				Runner.text( new String[] { "lanky:lizard:lick" } );
+				assertEquals("lazy lanky lizards are unlikely to lick\n", outContent.toString());
+				LogUtil.changeRootLevel( Level.DEBUG );
+			}
+			
+		});	
 	}
 	
 }
