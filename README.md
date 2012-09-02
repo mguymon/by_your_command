@@ -15,6 +15,16 @@ Dependency for Maven can use
       <version>0.0.1</version>
     </dependency>
 
+## Config
+
+Create a [Typesafe Config](https://github.com/typesafehub/config) application.conf and set the packages to be scanned for commands
+
+    command.packages=com.package.to.scan
+
+or
+
+    command.packages=[com.package.to.scan1, com.package.to.scan2]
+
 ## How Does it Work
 
 By scanning the classpath for Classes annotated with @ByYourCommand, a methods are made executable by a GUI or from the command line via the **com.tobedevoured.command.Runner**.
@@ -55,7 +65,15 @@ Screenshot of the Text Runner
 
 #### Cavaet
 
-ByYourCommand presently only works with methods with no parameters or String for @Commands
+_ByYourCommand_ presently only works with methods with no parameters or _String_ for _@CommandParam_.
+
+### Executing a Command
+
+In _main(String[] args)_ of the Class, execute _com.tobedevoured.command.Runner.run( args )_ and ByYourCommand will scan the classpath and start the Runner to GUI or if there is no video support, command line.
+
+To create an executable Jar, set the _MANIFEST.MF_ with
+
+     Main-Class: com.tobedevoured.command.Runner
 
 ## License
 
