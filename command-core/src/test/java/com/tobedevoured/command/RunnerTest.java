@@ -47,6 +47,7 @@ public class RunnerTest {
 					"  lanky:lizard:lazy\n" +
 					"  lanky:lizard:lick\n" +
 					"  testcommands:hamster:eat\n" +
+					"  testcommands:hamster:play[with]\n" +
 					"  testcommands:hamster:sleep\n" +
 					" \n" +
 					"Groups: \n" +
@@ -66,6 +67,17 @@ public class RunnerTest {
 				LogUtil.changeRootLevel( Level.ERROR );
 				Runner.text( new String[] { "testcommands:hamster:eat" } );
 				assertEquals("Yum\n", outContent.toString());
+				LogUtil.changeRootLevel( Level.DEBUG );
+			}
+			
+		});	
+		
+		captureOutput( new CaptureTest() {
+			@Override
+			public void test(ByteArrayOutputStream outContent, ByteArrayOutputStream errContent) throws Exception {
+				LogUtil.changeRootLevel( Level.ERROR );
+				Runner.text( new String[] { "testcommands:hamster:play[wheel]" } );
+				assertEquals("wheel is fun\n", outContent.toString());
 				LogUtil.changeRootLevel( Level.DEBUG );
 			}
 			

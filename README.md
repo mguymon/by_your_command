@@ -17,16 +17,45 @@ Dependency for Maven can use
 
 ## How Does it Work
 
-By scanning the classpath for Classes annotated with @ByYourCommand, a methods are made executable by a GUI or from the command line. 
+By scanning the classpath for Classes annotated with @ByYourCommand, a methods are made executable by a GUI or from the command line via the **com.tobedevoured.command.Runner**.
 
-Screenshot of the GUI Command Runner
+Screenshot of the GUI Runner
 
 ![Example GUI](https://raw.github.com/mguymon/by_your_command/master/gui_example.png)
 
-Screenshot of the Text Command Runner
+Screenshot of the Text Runner
 
 ![Example CLI](https://raw.github.com/mguymon/by_your_command/master/cli_example.png)
 
+### Example @ByYourCommand Java
+
+    @ByYourCommand
+    public class Hamster {
+	
+	    @Command
+	    public void eat() {
+		    System.out.println( "Yum" );
+	    }
+	
+	    @Command
+	    public void sleep() {
+		    System.out.println( "Zzzzzz" ); 
+	    }
+
+      @Command
+	    @CommandParam(name = "with", type = String.class)
+	    public void play( String with ) {
+		    System.out.println( with + " is fun" ); 
+	    }
+	
+	    public static void main(String[] args) throws RunException {
+		    Runner.run( args );
+	    }
+    }
+
+#### Cavaet
+
+ByYourCommand presently only works with methods with no parameters or String for @Commands
 
 ## License
 

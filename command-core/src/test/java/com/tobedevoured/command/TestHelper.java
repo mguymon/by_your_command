@@ -1,6 +1,8 @@
 package com.tobedevoured.command;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileDescriptor;
+import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -21,8 +23,8 @@ public class TestHelper {
 		
 		test.test( outContent, errContent );
 		
-		System.setOut(null);
-	    System.setErr(null);
+		System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+	    System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.out)));
 		
 	}
 }

@@ -404,10 +404,6 @@ public class Runner {
 				
 			}
 			
-			if ( "true".equalsIgnoreCase( System.getProperty("DEBUG") ) ) {
-				LogUtil.changeLevel( "com.employment", Level.DEBUG );
-			}
-			
 			// Iterate commands a second time to exec the commands
 			CommandMethod commandMethod = null;
 			for (String command : args) {
