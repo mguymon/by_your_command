@@ -1,5 +1,11 @@
 package com.tobedevoured.command;
 
+/**
+ * Run Exception
+ * 
+ * @author Michael Guymon
+ *
+ */
 public class RunException extends Exception {
 
 	public RunException(String message) {

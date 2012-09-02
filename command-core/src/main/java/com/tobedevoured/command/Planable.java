@@ -3,10 +3,16 @@ package com.tobedevoured.command;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Plan used to execute a method on an {@link ByYourCommand} annotated Class
+ * 
+ * @author Michael Guymon
+ *
+ */
 public interface Planable {
 
 	/**
-	 * Get the target Bean from Spring
+	 * Get the target for this Plan
 	 * 
 	 * @return Object
 	 * @throws CommandException

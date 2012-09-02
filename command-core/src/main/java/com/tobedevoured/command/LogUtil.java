@@ -55,6 +55,13 @@ public class LogUtil {
 	 	log.setLevel( level );
 	}
 	
+	/**
+	 * Change the log {@link Level} for a logger. The String level must be 
+	 * debug, warn, error, otherwise defaults to info
+	 * 
+	 * @param logger String
+	 * @param level String
+	 */
 	public static void changeLevel( final String logger, final String level ) {
 		Level logLevel = null;
 		
@@ -68,7 +75,7 @@ public class LogUtil {
 			logLevel = Level.INFO;
 		}
 		
-		changeLevel( logger, level );
+		changeLevel( logger, logLevel );
 	}
 	
 	/**
@@ -80,6 +87,14 @@ public class LogUtil {
 		return root.getLevel();
 	}
 	
+	/**
+	 * Load a logback.xml from the local file system. The configuration is merged with
+	 * the logback.xml from the classpath.
+	 * 
+	 * @param path String path t logback.xml
+	 * @throws IOException
+	 * @throws JoranException
+	 */
 	public static void configureFromFile(String path) throws IOException, JoranException {
 		configureFromFile( new File( path ) );
 	}

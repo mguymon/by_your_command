@@ -33,7 +33,7 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
 /**
- * Run @ExecCommand annotated classes, as a GUI or command line.
+ * Run @ByYourCommand annotated classes, as a GUI or command line.
  * 
  * @author Michael Guymon
  */

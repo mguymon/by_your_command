@@ -4,13 +4,13 @@
 
 	<groupId>com.tobedevoured.command</groupId>
 	<artifactId>core</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>By Your Command</name>
 	<url>https://github.com/mguymon/by_your_command</url>
   <description>
-        Turn Java into an executable
+        Make Java code do your bidding by turn any Java into an executable
   </description>
   <licenses>
     <license>

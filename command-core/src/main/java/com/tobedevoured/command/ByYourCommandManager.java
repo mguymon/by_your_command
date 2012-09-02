@@ -56,10 +56,21 @@ public class ByYourCommandManager {
 		groups = new HashMap<String, Set<String>>();
 	}
 	
+	/**
+	 * Create a default Plan
+	 *  
+	 * @return {@link Planable}
+	 */
 	public Planable createObjectPlan() {
 		return new SimplePlan();
 	}
 	
+	/**
+	 * Scans a List of packages for {@link ByYourcommand} annotated Classes
+	 * 
+	 * @param packages List<String>
+	 * @throws CommandException
+	 */
 	public void scanForCommands( List<String> packages ) throws CommandException {
 		for( String _package: packages ) {
 			scanForCommands( _package );
@@ -67,7 +78,7 @@ public class ByYourCommandManager {
 	}
 	
 	/**
-	 * Scan a package for classes annotated with @ByYourCommand and register them.
+	 * Scan a package for classes annotated with {@link ByYourCommand} and register them.
 	 * 
 	 * @param _package
 	 * @throws CommandException
@@ -290,12 +301,26 @@ public class ByYourCommandManager {
         }
 	}
 	
-	// group:target:command
+	/**
+	 * Execute a command using the String notation group:target:command
+	 * 
+	 * @param commandNotation String
+	 * @return {@link CommandMethod}
+	 * @throws CommandException
+	 */
 	public CommandMethod exec( String commandNotation ) throws CommandException {
 		return exec(commandNotation, null );
 	}
 	
-	// group:target:command
+	/**
+	 * Execute a command using the String notation group:target:command with
+	 * a List of params
+	 * 
+	 * @param commandNotation String
+	 * @param params List
+	 * @return {@link CommandMethod}
+	 * @throws CommandException
+	 */
 	public CommandMethod exec(String commandNotation, List<Object> params ) throws CommandException {
 		logger.debug( "execing {}", commandNotation );
 		
@@ -358,7 +383,6 @@ public class ByYourCommandManager {
 	/**
 	 * Exec a group of commands
 	 * 
-	 * @param applicationContext {@link ApplicationContext}
 	 * @param group String
 	 * @throws CommandException
 	 */

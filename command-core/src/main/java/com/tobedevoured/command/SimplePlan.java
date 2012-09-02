@@ -17,7 +17,7 @@ import ch.qos.logback.classic.Level;
 import com.tobedevoured.command.LogUtil;
 
 /**
- * Plan for executing {@link CommandMethod} on target Bean 
+ * Default Plan used to execute a method on an {@link ByYourCommand} annotated Class
  * 
  * @author Michael Guymon
  */
@@ -38,6 +38,11 @@ public class SimplePlan implements Planable {
 		commands = new HashMap<String, CommandMethod>();
 	}
 
+	/**
+	 * Construct a new instance of that target
+	 * 
+	 * @return Object
+	 */
 	public Object buildTarget() throws CommandException {
 		try {
 			return ConstructorUtils.invokeConstructor( target, null );
@@ -52,10 +57,19 @@ public class SimplePlan implements Planable {
 		}
 	}
 
+	/**
+	 * Add a {@link Command}
+	 */
 	public void addCommand( CommandMethod command ) {
 		commands.put(command.getName(), command );
 	}
 	
+	/**
+	 * Execute the default Command with params for this Plan
+	 * 
+	 * @param List
+	 * @return {@link CommandMethod} that was executed
+	 */
 	public CommandMethod exec( List<Object> params ) throws CommandException {
 		if ( defaultCommand != null ) {
 			exec( defaultCommand, params );
@@ -66,6 +80,13 @@ public class SimplePlan implements Planable {
 		return defaultCommand;
 	}
 
+	/**
+	 * Execute the Command for the String notation group:target:name with params.
+	 * 
+	 * @param commandNotaiton String
+	 * @param params List
+	 * @return {@link CommandMethod} that was executed
+	 */
 	public CommandMethod exec( String commandNotation, List<Object> params ) throws CommandException {
 		String[] notation = commandNotation.split(":");
 		
@@ -93,6 +114,13 @@ public class SimplePlan implements Planable {
 		return command;
 	}
 
+	/**
+	 * Execute a {@link CommandMethod} with params
+	 * 
+	 * @param command {@link CommandMethod}
+	 * @param params List
+	 * @return {@link CommandMethod} that was executed
+	 */
 	public CommandMethod exec( CommandMethod command, List<Object> params) throws CommandException {
 		
 		Object instance = buildTarget();
@@ -134,6 +162,11 @@ public class SimplePlan implements Planable {
 		return command;
 	}
 
+	/**
+	 * List of descriptions for the commands in this Plan
+	 * 
+	 * @return List<String>
+	 */
 	public List<String> commandsDesc() {
 		List<String> commandsDesc = new ArrayList<String>();
 		

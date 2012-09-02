@@ -6,6 +6,6 @@ public class ClassScanner extends ClassesInPackageScanner {
 
 	public ClassScanner() {
 		this.classLoader = getDefaultClassLoader();
-        this.resourceLoader = new ClassResourceLoader( getDefaultClassLoader(), false );
+        this.resourceLoader = new CommandResourceLoader( getDefaultClassLoader(), false );
 	}
 }
