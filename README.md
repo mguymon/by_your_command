@@ -17,7 +17,7 @@ Dependency for Maven can use
 
 ## Config
 
-Create a [Typesafe Config](https://github.com/typesafehub/config) application.conf and set the packages to be scanned for commands
+Create a [Typesafe Config](https://github.com/typesafehub/config) _application.conf_ and set the packages to be scanned for commands
 
     command.packages=com.package.to.scan
 
@@ -27,7 +27,7 @@ or
 
 ## How Does it Work
 
-By scanning the classpath for Classes annotated with @ByYourCommand, a methods are made executable by a GUI or from the command line via the **com.tobedevoured.command.Runner**.
+By scanning the classpath for Classes annotated with _@ByYourCommand_, methods are made executable by a GUI or from the command line via the **com.tobedevoured.command.Runner**.
 
 Screenshot of the GUI Runner
 
