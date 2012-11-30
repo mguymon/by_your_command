@@ -28,7 +28,6 @@ import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Level;
 
-import com.tobedevoured.command.LogUtil;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
@@ -85,8 +84,7 @@ public class Runner {
 	}
 	
 	public void shutdown(boolean hasError) {
-		LogUtil.errorOnlyLogging();
-
+		
 		if ( ALLOW_SYSTEM_EXIT ) {
 			if ( hasError ) {
 				System.exit(1);
@@ -309,8 +307,6 @@ public class Runner {
 		topPanel.add( commandTypesCombo );
 		topPanel.add( commandsCombo);
 		
-		final JCheckBox debugCheckBox = new JCheckBox( "Debug" );
-		
 		JButton saveButton = new JButton( "Run" );
 		frame.getRootPane().setDefaultButton( saveButton );
 		saveButton.addActionListener(new ActionListener() {
@@ -329,10 +325,6 @@ public class Runner {
 				String command = (String)((JComboBox)topPanel.getComponent(1)).getSelectedItem();
 				if ( command != null && command.length() > 0 ) {
 					command = runner.removeCommandParamText(command);
-	
-					if ( debugCheckBox.isSelected() ) {
-						LogUtil.changeLevel( "com.employment", Level.DEBUG );
-					}
 					
 					CommandMethod commandMethod = null;
 					try {
@@ -361,7 +353,6 @@ public class Runner {
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.add( saveButton );
 		bottomPanel.add( cancelButton );
-		bottomPanel.add( debugCheckBox );
 
 		frame.add(topPanel, BorderLayout.NORTH );
 		frame.add( middlePanel, BorderLayout.CENTER );
@@ -453,11 +444,6 @@ public class Runner {
 	 * @throws CommandException
 	 */
 	public static void run(String[] args) throws RunException {
-		
-		if ( "true".equalsIgnoreCase( System.getProperty("DEBUG") ) ) {
-			LogUtil.changeLevel( "com.employment", Level.DEBUG );
-			Runner.logger.info( "Running in debug mode" );
-		}
 		
 		boolean headlessCheck = GraphicsEnvironment.isHeadless();
 		if ( headlessCheck ) {

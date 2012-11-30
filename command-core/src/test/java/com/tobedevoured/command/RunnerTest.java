@@ -38,7 +38,6 @@ public class RunnerTest {
 		captureOutput( new CaptureTest() {
 			@Override
 			public void test(ByteArrayOutputStream outContent, ByteArrayOutputStream errContent) throws Exception {
-				LogUtil.changeRootLevel( Level.ERROR );
 				Runner.text( new String[] { "--help" } );
 				assertEquals(
 					"\nCommands: \n" +
@@ -53,7 +52,7 @@ public class RunnerTest {
 					"Groups: \n" +
 					"  testcommands\n" +
 					"  lanky\n", outContent.toString());
-				LogUtil.changeRootLevel( Level.DEBUG );
+				
 			}
 			
 		});	
@@ -64,10 +63,8 @@ public class RunnerTest {
 		captureOutput( new CaptureTest() {
 			@Override
 			public void test(ByteArrayOutputStream outContent, ByteArrayOutputStream errContent) throws Exception {
-				LogUtil.changeRootLevel( Level.ERROR );
 				Runner.text( new String[] { "testcommands:hamster:eat" } );
 				assertEquals("Yum\n", outContent.toString());
-				LogUtil.changeRootLevel( Level.DEBUG );
 			}
 			
 		});	
@@ -75,10 +72,8 @@ public class RunnerTest {
 		captureOutput( new CaptureTest() {
 			@Override
 			public void test(ByteArrayOutputStream outContent, ByteArrayOutputStream errContent) throws Exception {
-				LogUtil.changeRootLevel( Level.ERROR );
 				Runner.text( new String[] { "testcommands:hamster:play[wheel]" } );
 				assertEquals("wheel is fun\n", outContent.toString());
-				LogUtil.changeRootLevel( Level.DEBUG );
 			}
 			
 		});	
@@ -86,10 +81,8 @@ public class RunnerTest {
 		captureOutput( new CaptureTest() {
 			@Override
 			public void test(ByteArrayOutputStream outContent, ByteArrayOutputStream errContent) throws Exception {
-				LogUtil.changeRootLevel( Level.ERROR );
 				Runner.text( new String[] { "lanky:lizard:lick" } );
 				assertEquals("lazy lanky lizards are unlikely to lick\n", outContent.toString());
-				LogUtil.changeRootLevel( Level.DEBUG );
 			}
 			
 		});	

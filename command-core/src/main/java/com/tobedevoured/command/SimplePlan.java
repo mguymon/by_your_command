@@ -14,8 +14,6 @@ import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Level;
 
-import com.tobedevoured.command.LogUtil;
-
 /**
  * Default Plan used to execute a method on an {@link ByYourCommand} annotated Class
  * 
@@ -153,10 +151,7 @@ public class SimplePlan implements Planable {
 		command.setResult( result );
 		
 		if ( command.isLogResult() ) {
-			Level level = LogUtil.currentRootLevel();
-			LogUtil.changeRootLevel( Level.INFO );
 			LoggerFactory.getLogger( this.getTarget() ).info( "{} [{}]", command.getName(), result );
-			LogUtil.changeRootLevel( level );
 		}
 		
 		return command;

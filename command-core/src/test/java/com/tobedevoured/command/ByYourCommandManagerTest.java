@@ -76,9 +76,7 @@ public class ByYourCommandManagerTest {
 		captureOutput( new CaptureTest() {
 			@Override
 			public void test(ByteArrayOutputStream outContent, ByteArrayOutputStream errContent) throws Exception {
-				LogUtil.changeRootLevel( Level.ERROR );
 				manager.exec( "lanky:lizard" );
-				LogUtil.changeRootLevel( Level.DEBUG );
 				assertEquals( "very\n", outContent.toString() );
 			}
 		});
@@ -86,9 +84,7 @@ public class ByYourCommandManagerTest {
 		captureOutput( new CaptureTest() {
 			@Override
 			public void test(ByteArrayOutputStream outContent, ByteArrayOutputStream errContent) throws Exception {
-				LogUtil.changeRootLevel( Level.ERROR );
 				manager.exec( "lanky:lizard:lick" );
-				LogUtil.changeRootLevel( Level.DEBUG );
 				assertEquals( "lazy lanky lizards are unlikely to lick\n", outContent.toString() );
 			}
 		});
@@ -101,9 +97,7 @@ public class ByYourCommandManagerTest {
 		captureOutput( new CaptureTest() {
 			@Override
 			public void test(ByteArrayOutputStream outContent, ByteArrayOutputStream errContent) throws Exception {
-				LogUtil.changeRootLevel( Level.ERROR );
 				manager.execDefault( Lizard.class );
-				LogUtil.changeRootLevel( Level.DEBUG );
 				assertEquals( "very\n", outContent.toString() );
 			}
 		});
@@ -112,9 +106,7 @@ public class ByYourCommandManagerTest {
 			captureOutput( new CaptureTest() {
 				@Override
 				public void test(ByteArrayOutputStream outContent, ByteArrayOutputStream errContent) throws Exception {
-					LogUtil.changeRootLevel( Level.ERROR );
 					manager.execDefault( Hamster.class );
-					LogUtil.changeRootLevel( Level.DEBUG );
 					assertEquals( "lazy lanky lizards are unlikely to lick\n", outContent.toString() );
 				}
 			});
