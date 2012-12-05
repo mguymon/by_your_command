@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -15,7 +16,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,10 +23,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
+import org.apache.commons.beanutils.ConstructorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import ch.qos.logback.classic.Level;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -69,6 +68,18 @@ public class Runner {
 		}
 		
 		manager = new ByYourCommandManager();
+		
+        if ( config.hasPath( "command.dependency_manager" ) ) {
+            String dependencyManager = config.getString("command.dependency_manager");
+    		if ( dependencyManager != null ) {		    
+    		    try {
+                    manager.registerDependencyManager(dependencyManager);
+                } catch (CommandException e) {
+                    throw new RunException(e);
+                }
+            }
+        }
+        
     	try {
 			manager.scanForCommands( packages );
 		} catch (CommandException commandException) {
@@ -126,20 +137,20 @@ public class Runner {
 	}
 	
 	/**
-	 * Get {@link SpringPlan} for a Class
+	 * Get {@link Planable} for a Class
 	 * 
 	 * @param clazz Class
-	 * @return {@link SpringPlan}
+	 * @return {@link Planable}
 	 */
 	public Planable getPlan( Class clazz ) {
 		return manager.getPlan( clazz );
 	}
 	
 	/**
-	 * Get a {@link SpringPlan} for a notation
+	 * Get a {@link Planable} for a notation
 	 * 
 	 * @param notation String
-	 * @return {@link SpringPlan}
+	 * @return {@link Planable}
 	 */
 	public Planable getPlan( String notation ) {
 		CommandDependency dep = manager.getCommands().get( notation );

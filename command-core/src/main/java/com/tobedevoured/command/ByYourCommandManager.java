@@ -1,6 +1,7 @@
 package com.tobedevoured.command;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.commons.beanutils.ConstructorUtils;
 import org.modeshape.common.text.Inflector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +46,8 @@ public class ByYourCommandManager {
 	private Set<String> commandsDesc;
 	
 	private Inflector inflector;
+
+    private DependencyManagable dependencyManager;
 	
 	/**
 	 * Construct new instance
@@ -54,6 +58,28 @@ public class ByYourCommandManager {
 		commands = new HashMap<String, CommandDependency>();
 		commandsDesc = new TreeSet<String>();
 		groups = new HashMap<String, Set<String>>();
+		
+		dependencyManager = new DependencyManagable() {
+
+            public void init() {
+                
+            }
+
+            public Object getTarget(Class clazz) throws CommandException {
+                try {
+                    return ConstructorUtils.invokeConstructor( clazz, null );
+                } catch (NoSuchMethodException e) {
+                    throw new CommandException(e);
+                } catch (IllegalAccessException e) {
+                    throw new CommandException(e);
+                } catch (InvocationTargetException e) {
+                    throw new CommandException(e);
+                } catch (InstantiationException e) {
+                    throw new CommandException(e);
+                }
+            }
+		    
+		};
 	}
 	
 	/**
@@ -62,7 +88,7 @@ public class ByYourCommandManager {
 	 * @return {@link Planable}
 	 */
 	public Planable createObjectPlan() {
-		return new SimplePlan();
+		return new SimplePlan(dependencyManager);
 	}
 	
 	/**
@@ -101,63 +127,11 @@ public class ByYourCommandManager {
         	CommandDependency execCommandDependency = new CommandDependency();
     		execCommandDependency.setTarget( clazz );
         	
-    		/*
-    		// Determine if there are SpringContext dependencies from package
-        	Set<String> springContexts = new HashSet<String>();
-        	
-        	
-        	ExecSpringContext packageExecSpringContext = clazz.getPackage().getAnnotation( ExecSpringContext.class );
-        	if ( packageExecSpringContext != null ) {
-        		springContexts.addAll( Arrays.asList( packageExecSpringContext.value() ) );
-        	}
-        	
-        	
-        	// Strip out empty string set as default of the annotation
-        	//springContexts.remove( "" );
-    		*/
-        	
         	// Plan that buids the exec target
     		Planable plan = createObjectPlan();
     		
-    		/*
-        	// Use @ExecSpringBean to determine bean to load
-        	ExecSpringBean execSpringBean = (ExecSpringBean)clazz.getAnnotation( ExecSpringBean.class );
-        	if ( execSpringBean != null ) {
-        		plan = new SpringPlan();
-        		
-        		if ( execSpringBean.qualifier().length() > 0 ) {
-        			((SpringPlan)plan).setBeanQualifier( execSpringBean.qualifier() );
-        		}
-        		
-        		if ( !ExecSpringBean.class.equals( execSpringBean.beanClass() ) ) {
-        			((SpringPlan)plan).setBeanClass( execSpringBean.beanClass() );
-        		}
-        		
-        		if ( !execSpringBean.contexts().equals( EMPTY_STRING_ARRAY ) ) {
-        			springContexts.addAll( Arrays.asList( execSpringBean.contexts() ) );        			
-        		}        	
-        	
-        	// Check for Spring Component
-        	} else if (clazz.getAnnotation( Component.class ) != null ) {
-        		plan = new SpringPlan();
-        		Component component = (Component)clazz.getAnnotation( Component.class );
-        		((SpringPlan)plan).setBeanQualifier( component.value() );
-        	
-        	// Create simple Plan
-        	} else {
-        		plan = new SimplePlan();
-        	}
-        	*/
-    		
         	plan.setTarget( clazz );
         	
-        	/*
-        	// Additional Spring Contexts
-        	ExecSpringContext execSpringContext = (ExecSpringContext)clazz.getAnnotation( ExecSpringContext.class );
-        	if ( execSpringContext != null ) {
-        		springContexts.addAll( Arrays.asList( execSpringContext.value() ) );
-        	}
-        	*/
         	
         	// Determine the name that will be used
         	String target = null;
@@ -179,15 +153,6 @@ public class ByYourCommandManager {
         	}
         	plan.setTargetGroup( group );
 
-
-        	/*
-            // Strip out empty string set as default of the annotation
-        	springContexts.remove( "" );
-        	
-        	// Set SpringContexts from package and class into ExecCommandDependency
-        	execCommandDependency.setContexts( springContexts );
-        	*/
-        	
         	// Create root notation of group:target
         	String notation = new StringBuilder( group ).append(":").append( target ).toString();
         	
@@ -265,7 +230,7 @@ public class ByYourCommandManager {
     					}
     				}
     				
-    				// Add the CommandMethod to the SpringPlan for this class
+    				// Add the CommandMethod to the Planable for this class
     				plan.addCommand( commandMethod );
     				
     				// Create full notation of group:name:command
@@ -275,7 +240,7 @@ public class ByYourCommandManager {
     			}
     		}
     		
-        	// Add the SpringPlan for the Class into the Map registry
+        	// Add the Planable for the Class into the Map registry
         	plans.put( clazz, plan );
         	
         	// Add the plan description into the commandsDesc helper
@@ -340,12 +305,7 @@ public class ByYourCommandManager {
 		// execute command
 		} if ( notation.length <= 3 ) {
 			Planable plan = getPlan( commandNotation );	
-			if ( plan != null ) {
-				/*
-				if ( plan instanceof SpringPlan ) {
-					((SpringPlan)plan).setApplicationContext( applicationContext );
-				}
-				*/
+			if ( plan != null ) {			
 				return plan.exec( commandNotation, params );
 				
 			} else {
@@ -367,12 +327,7 @@ public class ByYourCommandManager {
 	 */
 	public void execDefault( Class clazz ) throws CommandException {
 		Planable plan = getPlan( clazz );
-		if ( plan != null ) {		
-			/*
-			if ( plan instanceof SpringPlan ) {
-				((SpringPlan)plan).setApplicationContext( applicationContext );
-			}
-			*/
+		if ( plan != null ) {			
 			plan.exec(null);
 			
 		} else {
@@ -396,37 +351,49 @@ public class ByYourCommandManager {
 	}
 	
 	/**
-	 * Get {@link Set<String>} of resource paths for {@link ApplicationContext}
-	 * for a command notaton
+	 * Register a {@link DependencyManagable} used to create instances of Command's
+	 * Class. After constructing a new instance, {@link DependencyManagable#init}
+	 * is called.
 	 * 
-	 * @param commandNotation String
-	 * @return @{link Set<String>}
+	 * @param dependencyManager {@link DependencyManagable}
 	 * @throws CommandException
 	 */
-	/*
-	public Set<String> getCommandContexts( String commandNotation ) throws CommandException {
-		String[] notation = commandNotation.split(":");
-		
-		// Group of Commands
-		if ( notation.length == 1 ) {
-			Set<String> contexts = new HashSet<String>();
-			for ( String groupCommand: groups.get( commandNotation) ) {			
-				contexts.addAll( this.commands.get( groupCommand ).getContexts() );
-			}	
-			
-			return contexts;
-			
-		// Command
-		} else {
-			if ( this.commands.get( commandNotation ) != null ) {
-				return this.commands.get( commandNotation ).getContexts();
-			} else {
-				return new HashSet<String>();
-			}
-		}
-	}
-	*/
+    public void registerDependencyManager(String dependencyManager) throws CommandException {
+        Class dependencyManagerClass = null;
+                
+        try {
+            dependencyManagerClass = Class.forName( dependencyManager );
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Unable to find DependencyManager class: " + dependencyManagerClass, e);
+        }                    
+        
+        DependencyManagable depManager = null;
+        try {
+            depManager = (DependencyManagable) ConstructorUtils.invokeConstructor(dependencyManagerClass, null);
+        } catch (NoSuchMethodException e) {
+            throw new CommandException(e);
+        } catch (IllegalAccessException e) {
+            throw new CommandException(e);
+        } catch (InvocationTargetException e) {
+            throw new CommandException(e);
+        } catch (InstantiationException e) {
+            throw new CommandException(e);
+        }
+        
+        depManager.init();
+        
+        this.dependencyManager = depManager;
+    }
 	
+    /**
+     * Get {@link DependencyManagable} used to create instances of Command's Class
+     * 
+     * @return {@link DependencyManagable}
+     */
+    public DependencyManagable getDependencyManager() {
+        return dependencyManager;
+    }
+    
 	/**
 	 * Get Map of {@link SimplePlan} for a Class
 	 * 
@@ -437,10 +404,10 @@ public class ByYourCommandManager {
 	}
 	
 	/**
-	 * Get {@link SpringPlan} for a group:target:name command notation
+	 * Get {@link Planable} for a group:target:name command notation
 	 * 
 	 * @param notation String
-	 * @return {@link SpringPlan}
+	 * @return {@link Planable}
 	 */
 	public Planable getPlan( String notation ) {
 		CommandDependency dep = commands.get( notation );
@@ -455,7 +422,7 @@ public class ByYourCommandManager {
 	 * Get {@link SimplePlan} for a Class
 	 * 
 	 * @param clazz Class
-	 * @return {@link SpringPlan}
+	 * @return {@link Planable}
 	 */
 	public Planable getPlan( Class clazz ) {
 		return plans.get( clazz );

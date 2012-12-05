@@ -28,12 +28,14 @@ public class SimplePlan implements Planable {
 	protected Class target;
 	protected String targetName;
 	protected String targetGroup;	
+	protected DependencyManagable dependencyManager;
 	
 	/**
 	 * Construct new instance
 	 */
-	public SimplePlan() {
+	public SimplePlan(DependencyManagable dependencyManager) {
 		commands = new HashMap<String, CommandMethod>();
+		this.dependencyManager = dependencyManager;
 	}
 
 	/**
@@ -42,17 +44,7 @@ public class SimplePlan implements Planable {
 	 * @return Object
 	 */
 	public Object buildTarget() throws CommandException {
-		try {
-			return ConstructorUtils.invokeConstructor( target, null );
-		} catch (NoSuchMethodException e) {
-			throw new CommandException(e);
-		} catch (IllegalAccessException e) {
-			throw new CommandException(e);
-		} catch (InvocationTargetException e) {
-			throw new CommandException(e);
-		} catch (InstantiationException e) {
-			throw new CommandException(e);
-		}
+		return dependencyManager.getTarget(target);
 	}
 
 	/**
