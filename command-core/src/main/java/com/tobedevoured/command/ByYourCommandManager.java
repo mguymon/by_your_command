@@ -58,7 +58,8 @@ public class ByYourCommandManager {
 		commands = new HashMap<String, CommandDependency>();
 		commandsDesc = new TreeSet<String>();
 		groups = new HashMap<String, Set<String>>();
-		
+
+        // Create default dep manager
 		dependencyManager = new DependencyManagable() {
 
             public void init() {
@@ -92,7 +93,7 @@ public class ByYourCommandManager {
 	}
 	
 	/**
-	 * Scans a List of packages for {@link ByYourcommand} annotated Classes
+	 * Scans a List of packages for {@link ByYourCommand} annotated Classes
 	 * 
 	 * @param packages List<String>
 	 * @throws CommandException
@@ -320,8 +321,7 @@ public class ByYourCommandManager {
 	
 	/**
 	 * Exec the Class' default command
-	 * 
-	 * @param applicationContext {@link ApplicationContext}
+	 *
 	 * @param clazz Class
 	 * @throws CommandException
 	 */
@@ -447,9 +447,9 @@ public class ByYourCommandManager {
 	}
 	
 	/**
-	 * Get {@link Map<String,ExecCommandDependency>} for all commands regstered
+	 * Get {@link Map<String,CommandDependency>} for all commands registered
 	 * 
-	 * @return {@link Map<String,ExecCommandDependency>}
+	 * @return {@link Map<String,CommandDependency>}
 	 */
 	public Map<String, CommandDependency> getCommands() {
 		return commands;

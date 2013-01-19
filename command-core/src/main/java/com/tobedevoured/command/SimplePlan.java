@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.ConstructorUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +45,7 @@ public class SimplePlan implements Planable {
 	}
 
 	/**
-	 * Add a {@link Command}
+	 * Add a {@link com.tobedevoured.command.annotation.Command}
 	 */
 	public void addCommand( CommandMethod command ) {
 		commands.put(command.getName(), command );
@@ -71,7 +70,7 @@ public class SimplePlan implements Planable {
 	/**
 	 * Execute the Command for the String notation group:target:name with params.
 	 * 
-	 * @param commandNotaiton String
+	 * @param commandNotation String
 	 * @param params List
 	 * @return {@link CommandMethod} that was executed
 	 */
