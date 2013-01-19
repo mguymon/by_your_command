@@ -12,8 +12,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ch.qos.logback.classic.Level;
-
 /**
  * Default Plan used to execute a method on an {@link ByYourCommand} annotated Class
  * 
@@ -44,7 +42,7 @@ public class SimplePlan implements Planable {
 	 * @return Object
 	 */
 	public Object buildTarget() throws CommandException {
-		return dependencyManager.getTarget(target);
+		return dependencyManager.getInstance(target);
 	}
 
 	/**

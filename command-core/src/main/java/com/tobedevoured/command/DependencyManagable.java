@@ -4,5 +4,5 @@ public interface DependencyManagable {
 
     void init();
     
-    <T> T getTarget(Class<T> clazz) throws CommandException;
+    <T> T getInstance(Class<T> clazz) throws CommandException;
 }

@@ -65,7 +65,7 @@ public class ByYourCommandManager {
                 
             }
 
-            public Object getTarget(Class clazz) throws CommandException {
+            public Object getInstance(Class clazz) throws CommandException {
                 try {
                     return ConstructorUtils.invokeConstructor( clazz, null );
                 } catch (NoSuchMethodException e) {
