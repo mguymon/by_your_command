@@ -5,7 +5,7 @@
 	<artifactId>parent</artifactId>
 	<name>By Your Command Parent</name>
 	<packaging>pom</packaging>
-	<version>0.0.2</version>
+	<version>0.1.0</version>
 	<url>https://github.com/mguymon/by_your_command</url>
 	<description>
         Make Java do your bidding by turning any code into an executable
@@ -79,6 +79,16 @@
 
 	<build>
 		<plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>

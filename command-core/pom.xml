@@ -4,9 +4,9 @@
     <parent>
 	    <groupId>com.tobedevoured.command</groupId>
 	    <artifactId>parent</artifactId>
-	    <version>0.0.2</version>
+	    <version>0.1.0</version>
     </parent>
-	<artifactId>core</artifactId>
+	<artifactId>command-core</artifactId>
 	<packaging>jar</packaging>
 
 	<name>By Your Command</name>

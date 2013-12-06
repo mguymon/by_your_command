@@ -10,6 +10,7 @@ import java.awt.event.ItemListener;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -44,7 +45,22 @@ public class Runner {
 	
 	public static boolean ALLOW_SYSTEM_EXIT = true;
 	public static boolean HAS_ERRORS = false;
-	
+
+    /**
+     * Construct new instance
+     *
+     * @throws CommandException
+     * @throws IOException
+     * @throws ConfigException
+     */
+    public Runner(String _package) throws RunException {
+        Config config = ConfigFactory.load();
+
+        List<String> packages = Arrays.asList( _package );
+
+        setup(config, packages);
+    }
+
 	/**
 	 * Construct new instance
 	 * 
@@ -66,25 +82,29 @@ public class Runner {
 		} else {
 			throw new RunException( "command.packages is an invalid format" );
 		}
-		
-		manager = new ByYourCommandManager();
-		
+
+        setup(config, packages);
+    }
+
+    private void setup(Config config, List<String> packages) throws RunException {
+        manager = new ByYourCommandManager();
+
         if ( config.hasPath( "command.dependency_manager" ) ) {
             String dependencyManager = config.getString("command.dependency_manager");
-    		if ( dependencyManager != null ) {		    
-    		    try {
+            if ( dependencyManager != null ) {
+                try {
                     manager.registerDependencyManager(dependencyManager);
                 } catch (CommandException e) {
                     throw new RunException(e);
                 }
             }
         }
-        
-    	try {
-			manager.scanForCommands( packages );
-		} catch (CommandException commandException) {
-			new RunException( commandException );
-		}    	
+
+        try {
+            manager.scanForCommands( packages );
+        } catch (CommandException commandException) {
+            new RunException( commandException );
+        }
     }
 	
 	/**
@@ -228,8 +248,7 @@ public class Runner {
 	
 	/**
 	 * Run GUI Runner
-	 * 
-	 * @param additionalContexts {@link Set<String>}
+     *
 	 * @throws CommandException
 	 * @throws ConfigException 
 	 * @throws IOException 
