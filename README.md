@@ -25,6 +25,11 @@ or
 
     command.packages=[com.package.to.scan1, com.package.to.scan2]
 
+or
+    command: {
+    	packages: "com.package.to.scan"
+    }
+
 ## How Does it Work
 
 By scanning the classpath for Classes annotated with _@ByYourCommand_, methods are made executable by a GUI or from the command line via the **com.tobedevoured.command.Runner**.
