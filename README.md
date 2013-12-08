@@ -26,8 +26,9 @@ or
     command.packages=[com.package.to.scan1, com.package.to.scan2]
 
 or
+
     command: {
-    	packages: "com.package.to.scan"
+    	packages: ["com.package.to.scan", "com.package.to.scan2"]
     }
 
 ## How Does it Work
