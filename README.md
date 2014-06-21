@@ -12,7 +12,7 @@ Dependency for Maven can use
     <dependency>
       <groupId>com.tobedevoured.command</groupId>
       <artifactId>core</artifactId>
-      <version>0.0.2</version>
+      <version>0.3.2</version>
     </dependency>
 
 ## Config
@@ -65,7 +65,7 @@ Screenshot of the Text Runner
 	    }
 	
 	    public static void main(String[] args) throws RunException {
-		    Runner.run( args );
+		    (new Runner()).run( args );
 	    }
     }
 
