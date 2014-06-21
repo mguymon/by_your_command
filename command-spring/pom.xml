@@ -1,19 +1,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.tobedevoured.command</groupId>
-    <artifactId>parent</artifactId>
-    <name>By Your Command Parent</name>
-    <packaging>pom</packaging>
-    <version>0.2.0</version>
+    <parent>
+        <groupId>com.tobedevoured.command</groupId>
+        <artifactId>parent</artifactId>
+        <version>0.2.0</version>
+    </parent>
+    <artifactId>command-spring</artifactId>
+    <packaging>jar</packaging>
+
+    <name>By Your Command</name>
     <url>https://github.com/mguymon/by_your_command</url>
     <description>
         Make Java do your bidding by turning any code into an executable
-   </description>
-    <modules>
-        <module>command-core</module>
-        <module>command-spring</module>
-    </modules>
+    </description>
 
     <licenses>
         <license>
@@ -22,13 +22,11 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-
     <scm>
         <url>scm:git:git@github.com/mguymon/by_your_command.git</url>
         <developerConnection>scm:git:git@github.com/mguymon/by_your_command.git</developerConnection>
         <connection>git@github.com/mguymon/by_your_command.git</connection>
     </scm>
-
     <developers>
         <developer>
             <id>mguymon</id>
@@ -36,7 +34,6 @@
             <email>michael@tobedevoured.com</email>
         </developer>
     </developers>
-
     <distributionManagement>
         <repository>
             <id>nexus-releases</id>
@@ -54,63 +51,34 @@
     </repositories>
 
     <properties>
-        <github.global.server>github</github.global.server>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
-
-        <!-- Logging -->
+        <!-- Compile scope -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.6.6</version>
-        </dependency>
-
-
-        <!-- Testing -->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <scope>test</scope>
-            <version>1.0.6</version>
+            <groupId>com.tobedevoured.command</groupId>
+            <artifactId>command-core</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.10</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>3.2.0.RELEASE</version>
+        </dependency>
+
+        <!-- Test scope -->
+        <dependency>
+            <groupId>com.tobedevoured.command</groupId>
+            <artifactId>command-core</artifactId>
+            <version>${project.version}</version>
+            <type>test-jar</type>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>2.0</version>
-            </plugin>
-            <plugin>
-                <groupId>com.github.github</groupId>
-                <artifactId>site-maven-plugin</artifactId>
-                <version>0.6</version>
-                <configuration>
-                    <message>Creating site for ${project.version}</message>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>site</goal>
-                        </goals>
-                        <phase>site</phase>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -155,35 +123,9 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
-                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-                </configuration>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>dependencies</report>
-                            <report>scm</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.8.1</version>
-                <configuration>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.12.3</version>
+                <version>2.7.2</version>
             </plugin>
         </plugins>
     </reporting>
 </project>
-
-

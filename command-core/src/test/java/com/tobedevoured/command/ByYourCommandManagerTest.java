@@ -44,7 +44,7 @@ public class ByYourCommandManagerTest {
 		
 		assertEquals( toSet( Lizard.class, Hamster.class ), manager.getPlans().keySet() );
 		
-		Planable plan = manager.getPlans().get( Lizard.class );
+		Plan plan = manager.getPlans().get( Lizard.class );
 		assertEquals( "lazy", plan.getDefaultCommand().getName() );
 		assertEquals( "lanky", plan.getTargetGroup() );
 		assertEquals( "lizard", plan.getTargetName() );

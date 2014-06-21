@@ -8,11 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,7 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-import org.apache.commons.beanutils.ConstructorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,14 +81,20 @@ public class Runner {
         setup(config, packages);
     }
 
+
+    protected ByYourCommandManager createCommandManager() {
+        return new ByYourCommandManager();
+    }
+
+
     private void setup(Config config, List<String> packages) throws RunException {
-        manager = new ByYourCommandManager();
+        manager = createCommandManager();
 
         if ( config.hasPath( "command.dependency_manager" ) ) {
             String dependencyManager = config.getString("command.dependency_manager");
             if ( dependencyManager != null ) {
                 try {
-                    manager.registerDependencyManager(dependencyManager);
+                    manager.registerDependencyResolver(dependencyManager);
                 } catch (CommandException e) {
                     throw new RunException(e);
                 }
@@ -106,8 +107,8 @@ public class Runner {
             new RunException( commandException );
         }
     }
-	
-	/**
+
+    /**
 	 * Shutdown runner
 	 */
 	public void shutdown() {
@@ -157,22 +158,22 @@ public class Runner {
 	}
 	
 	/**
-	 * Get {@link Planable} for a Class
+	 * Get {@link Plan} for a Class
 	 * 
 	 * @param clazz Class
-	 * @return {@link Planable}
+	 * @return {@link Plan}
 	 */
-	public Planable getPlan( Class clazz ) {
+	public Plan getPlan( Class clazz ) {
 		return manager.getPlan( clazz );
 	}
 	
 	/**
-	 * Get a {@link Planable} for a notation
+	 * Get a {@link Plan} for a notation
 	 * 
 	 * @param notation String
-	 * @return {@link Planable}
+	 * @return {@link Plan}
 	 */
-	public Planable getPlan( String notation ) {
+	public Plan getPlan( String notation ) {
 		CommandDependency dep = manager.getCommands().get( notation );
 		return getPlan( dep.getTarget() );
 	}
@@ -180,7 +181,7 @@ public class Runner {
 	/**
 	 * Remove the GUI dropdown's param [] text from command
 	 * 
-	 * @param command notation
+	 * @param notation String
 	 * @return String
 	 */
 	private String removeCommandParamText( String notation ) {
@@ -196,7 +197,7 @@ public class Runner {
 	public CommandMethod getCommandMethod( String commandNotation ) {		
 		String[] notation = commandNotation.split( ":" );
 		
-		Planable plan = getPlan( commandNotation );
+		Plan plan = getPlan( commandNotation );
 		if ( plan != null ) {
 			if ( notation.length  == 3 ) {
 				return plan.getCommands().get( notation[2] );
@@ -355,6 +356,11 @@ public class Runner {
 				String command = (String)((JComboBox)topPanel.getComponent(1)).getSelectedItem();
 				if ( command != null && command.length() > 0 ) {
 					command = runner.removeCommandParamText(command);
+
+                    Map<String,List> commandstoRun = new HashMap<String, List>();
+                    commandstoRun.put(command, params);
+
+                    runner.manager.getDependencyResolver().init(commandstoRun);
 					
 					CommandMethod commandMethod = null;
 					try {
@@ -414,16 +420,8 @@ public class Runner {
 
 		} else {
 			Pattern pattern = Pattern.compile(COMMAND_PATTERN);
-			
-			// Iterate commands first to build list of Spring context dependencies
-			for (String command : args) {
-				Matcher matcher = pattern.matcher(command);
-				
-				if ( matcher.matches() ) {
-					command = matcher.group(1);
-				}
-				
-			}
+
+            Map<String, List> commandsToRun = new HashMap<String, List>();
 			
 			// Iterate commands a second time to exec the commands
 			CommandMethod commandMethod = null;
@@ -445,14 +443,22 @@ public class Runner {
 						}
 					}
 				}
-				
-				try {
-					commandMethod = runner.exec(command, params);
-				} catch ( Exception e ) {
-					logger.error( "Failed to run command: {} ", command, e );
-					HAS_ERRORS = true;
-				}
+
+                commandsToRun.put( command, params );
 			}
+
+            runner.manager.getDependencyResolver().init(commandsToRun);
+
+            for ( Map.Entry<String, List> entry : commandsToRun.entrySet() ) {
+
+                try {
+                    commandMethod = runner.exec(entry.getKey(), entry.getValue());
+                } catch ( Exception e ) {
+                    logger.error( "Failed to run command: {} ", entry.getKey(), e );
+                    HAS_ERRORS = true;
+                }
+            }
+
 			
 			// the last command run determines if runner must shutdown
 			if ( commandMethod == null || commandMethod.isExit() ) {

@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +24,7 @@ public class DependencyManagerTest {
     
     @Test
     public void defaultDependencyManager() throws CommandException {
-        DependencyManagable depManager = manager.getDependencyManager();
+        DependencyResolvable depManager = manager.getDependencyResolver();
         
         Hamster hamster = depManager.getInstance( Hamster.class );
         
@@ -31,10 +33,10 @@ public class DependencyManagerTest {
     
     
     public void registerDependencyManager() throws CommandException {
-        DependencyManagable proxyDepManager = new DependencyManagable() {
+        DependencyResolvable proxyDepManager = new DependencyResolvable() {
             
-            public void init() {
-                
+            public void init(Map<String, List> commandsToRun) {
+                // NOOP
             }
 
             public <T> T getInstance(Class<T> clazz) throws CommandException {
@@ -52,12 +54,16 @@ public class DependencyManagerTest {
                         new Class[] { clazz },
                         handler);
             }
-            
+
+            public void setManager(ByYourCommandManager manager) {
+                // NOOP
+            }
+
         };
         
-        manager.registerDependencyManager( proxyDepManager.getClass().getSimpleName() );
+        manager.registerDependencyResolver(proxyDepManager.getClass().getSimpleName());
         
-        DependencyManagable depManager = manager.getDependencyManager();
+        DependencyResolvable depManager = manager.getDependencyResolver();
         Hamster hamster = depManager.getInstance( Hamster.class );
         assertTrue("Should be a Hamster", hamster instanceof Hamster );
         assertTrue("Should be a Hamster Proxy", Proxy.isProxyClass( hamster.getClass() ) );
