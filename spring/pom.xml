@@ -1,20 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.tobedevoured.command</groupId>
         <artifactId>parent</artifactId>
-        <version>0.2.0</version>
+        <version>0.3.0</version>
     </parent>
-    <artifactId>command-core</artifactId>
+    <artifactId>spring</artifactId>
     <packaging>jar</packaging>
 
-    <name>By Your Command Core</name>
+    <name>By Your Command Spring</name>
     <url>https://github.com/mguymon/by_your_command</url>
     <description>
         Make Java do your bidding by turning any code into an executable
     </description>
-    
+
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -55,46 +55,30 @@
     </properties>
 
     <dependencies>
+        <!-- Compile scope -->
         <dependency>
-            <groupId>org.modeshape</groupId>
-            <artifactId>modeshape-common</artifactId>
-            <version>2.8.2.Final</version>
+            <groupId>com.tobedevoured.command</groupId>
+            <artifactId>core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>3.2.0.RELEASE</version>
         </dependency>
 
+        <!-- Test scope -->
         <dependency>
-            <groupId>com.metapossum</groupId>
-            <artifactId>metapossum-scanner</artifactId>
-            <version>1.0.1</version>
+            <groupId>com.tobedevoured.command</groupId>
+            <artifactId>core</artifactId>
+            <version>${project.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-            <version>1.8.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.typesafe</groupId>
-            <artifactId>config</artifactId>
-            <version>0.5.0</version>
-        </dependency>
-
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>test-jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>

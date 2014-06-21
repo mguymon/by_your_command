@@ -5,14 +5,14 @@
     <artifactId>parent</artifactId>
     <name>By Your Command Parent</name>
     <packaging>pom</packaging>
-    <version>0.2.0</version>
+    <version>0.3.0</version>
     <url>https://github.com/mguymon/by_your_command</url>
     <description>
         Make Java do your bidding by turning any code into an executable
    </description>
     <modules>
-        <module>command-core</module>
-        <module>command-spring</module>
+        <module>core</module>
+        <module>spring</module>
     </modules>
 
     <licenses>
