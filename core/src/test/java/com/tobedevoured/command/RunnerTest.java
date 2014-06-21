@@ -38,7 +38,8 @@ public class RunnerTest {
 		captureOutput( new CaptureTest() {
 			@Override
 			public void test(ByteArrayOutputStream outContent, ByteArrayOutputStream errContent) throws Exception {
-				Runner.text( new String[] { "--help" } );
+				Runner runner = new Runner();
+                runner.text( new String[] { "--help" } );
 				assertEquals(
 					"\nCommands: \n" +
 					"  lanky:lizard\n" +
@@ -63,7 +64,8 @@ public class RunnerTest {
 		captureOutput( new CaptureTest() {
 			@Override
 			public void test(ByteArrayOutputStream outContent, ByteArrayOutputStream errContent) throws Exception {
-				Runner.text( new String[] { "testcommands:hamster:eat" } );
+                Runner runner = new Runner();
+                runner.text( new String[] { "testcommands:hamster:eat" } );
 				assertEquals("Yum\n", outContent.toString());
 			}
 			
@@ -72,7 +74,8 @@ public class RunnerTest {
 		captureOutput( new CaptureTest() {
 			@Override
 			public void test(ByteArrayOutputStream outContent, ByteArrayOutputStream errContent) throws Exception {
-				Runner.text( new String[] { "testcommands:hamster:play[wheel]" } );
+                Runner runner = new Runner();
+                runner.text( new String[] { "testcommands:hamster:play[wheel]" } );
 				assertEquals("wheel is fun\n", outContent.toString());
 			}
 			
@@ -81,7 +84,8 @@ public class RunnerTest {
 		captureOutput( new CaptureTest() {
 			@Override
 			public void test(ByteArrayOutputStream outContent, ByteArrayOutputStream errContent) throws Exception {
-				Runner.text( new String[] { "lanky:lizard:lick" } );
+                Runner runner = new Runner();
+                runner.text( new String[] { "lanky:lizard:lick" } );
 				assertEquals("lazy lanky lizards are unlikely to lick\n", outContent.toString());
 			}
 			
