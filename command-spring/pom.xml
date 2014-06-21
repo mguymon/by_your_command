@@ -9,7 +9,7 @@
     <artifactId>command-spring</artifactId>
     <packaging>jar</packaging>
 
-    <name>By Your Command</name>
+    <name>By Your Command Spring</name>
     <url>https://github.com/mguymon/by_your_command</url>
     <description>
         Make Java do your bidding by turning any code into an executable
