@@ -28,6 +28,6 @@ public class SpringRunner extends Runner {
      * @throws RunException
      */
     public static void main(String[] args) throws RunException {
-        SpringRunner.run(args);
+        ( new SpringRunner() ).run(args);
     }
 }

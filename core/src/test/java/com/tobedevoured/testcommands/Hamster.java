@@ -26,6 +26,6 @@ public class Hamster {
 	}
 	
 	public static void main(String[] args) throws RunException {
-		Runner.run( args );
+        ( new Runner() ).run( args );
 	}
 }

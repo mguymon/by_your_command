@@ -38,6 +38,6 @@ public class SpringCommandManagerTest {
     }
 
     public static void main(String[] args) throws RunException {
-        SpringRunner.run(args);
+        (new SpringRunner()).run(args);
     }
 }

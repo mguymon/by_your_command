@@ -473,48 +473,33 @@ public class Runner {
     
     /**
      * Run Runner, will run {@link #gui} if not {@link GraphicEnvironment#isHeadLess}, otherwise
-     * runs a {@link #text}
+     * runs a {@link #text}.
      * 
      * @param args String[]
      * @throws CommandException
      */
-    public static void run(String[] args) throws RunException {
-        Runner instance = null;
-
-        Class<?> clazz=new Object(){}.getClass().getEnclosingClass();
-
-        try {
-            instance = (Runner)ConstructorUtils.invokeConstructor( clazz, null );
-        } catch (NoSuchMethodException e) {
-            throw new RunException(e);
-        } catch (IllegalAccessException e) {
-            throw new RunException(e);
-        } catch (InvocationTargetException e) {
-            throw new RunException(e);
-        } catch (InstantiationException e) {
-            throw new RunException(e);
-        }
+    public void run(String[] args) throws RunException {
 
         boolean headlessCheck = GraphicsEnvironment.isHeadless();
         if ( headlessCheck ) {
-            instance.text( args );
+            text( args );
         } else {
             // Always run as text if args are set
             if ( args != null && args.length > 0 ) {
-                instance.text( args );
+                text( args );
             } else {
-                instance.gui();
+                gui();
             }
         }
     }
     
     /**
-     * Alias for {@link #run(String[])}
+     * Calls {@link #run(String[])}
      * 
      * @param args String[] args
      * @throws RunException
      */
     public static void main(String[] args) throws RunException {
-        Runner.run(args);
+        (new Runner()).run(args);
     }
 }
