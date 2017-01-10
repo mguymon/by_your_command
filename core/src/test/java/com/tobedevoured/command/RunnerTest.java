@@ -48,7 +48,7 @@ public class RunnerTest {
 					"  lanky:lizard:lick\n" +
 					"  testcommands:hamster:eat\n" +
 					"  testcommands:hamster:play[with]\n" +
-					"  testcommands:hamster:sleep\n" +
+					"  testcommands:hamster:sleep[one, two]\n" +
 					" \n" +
 					"Groups: \n" +
 					"  testcommands\n" +

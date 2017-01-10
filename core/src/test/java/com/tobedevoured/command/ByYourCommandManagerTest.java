@@ -56,8 +56,8 @@ public class ByYourCommandManagerTest {
 		assertEquals( "hamster", plan.getTargetName() );
 		assertEquals( toSet( "eat", "play", "sleep" ), plan.getCommands().keySet() );
 		
-		assertEquals( toSet( 
-			"lanky:lizard:lick", "testcommands:hamster:eat", "testcommands:hamster:play", "testcommands:hamster:sleep", 
+		assertEquals( toSet(
+			"lanky:lizard:lick", "testcommands:hamster:eat", "testcommands:hamster:play", "testcommands:hamster:sleep",
 			"lanky:lizard", "lanky:lizard:lazy", "lanky:lizard:crawl" ), manager.getCommands().keySet() );
 		
 		assertEquals( toSet( "testcommands", "lanky" ), manager.getGroups().keySet() );
@@ -66,7 +66,7 @@ public class ByYourCommandManagerTest {
 		
 		assertEquals( toSet( 
 				"lanky:lizard", "lanky:lizard:crawl", "lanky:lizard:lazy", "lanky:lizard:lick", 
-				"testcommands:hamster:eat", "testcommands:hamster:play[with]", "testcommands:hamster:sleep" ), descs );
+				"testcommands:hamster:eat", "testcommands:hamster:play[with]", "testcommands:hamster:sleep[one, two]" ), descs );
 	}
 	
 	@Test

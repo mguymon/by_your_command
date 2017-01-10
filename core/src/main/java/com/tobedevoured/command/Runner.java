@@ -40,9 +40,8 @@ public class Runner {
     /**
      * Construct new instance
      *
-     * @throws CommandException
-     * @throws IOException
-     * @throws ConfigException
+     * @param _package
+     * @throws RunException
      */
     public Runner(String _package) throws RunException {
         Config config = ConfigFactory.load();
@@ -55,9 +54,7 @@ public class Runner {
     /**
      * Construct new instance
      * 
-     * @throws CommandException
-     * @throws IOException 
-     * @throws ConfigException 
+     * @throws RunException
      */
     public Runner() throws RunException {
         
@@ -121,19 +118,6 @@ public class Runner {
             }        
         }
     }
-    
-    /**
-     * Get {@link Set<String>} of resouce paths for {@link ApplicationContext}
-     * 
-     * @param commandNotation String
-     * @return Set<String>
-     * @throws CommandException
-     */
-    /*
-    public Set<String> getCommandContexts( String commandNotation ) throws CommandException {
-        return this.manager.getCommandContexts( commandNotation );
-    }
-    */
     
     /**
      * Get list of all commands
@@ -246,9 +230,7 @@ public class Runner {
     /**
      * Run GUI Runner
      *
-     * @throws CommandException
-     * @throws ConfigException 
-     * @throws IOException 
+     * @throws RunException
      */
     public void gui() throws RunException {
 
@@ -272,10 +254,13 @@ public class Runner {
         right.fill = GridBagConstraints.HORIZONTAL;
         right.gridwidth = GridBagConstraints.REMAINDER;
         middlePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        
+
+        List<String> sortedCommands = new ArrayList(getCommandsDesc());
+        Collections.sort(sortedCommands);
+
         List<String> desc = new ArrayList<String>();
         desc.add( "" );
-        desc.addAll( getCommandsDesc() );
+        desc.addAll(sortedCommands);
         
         final JComboBox commandsCombo = new JComboBox( desc.toArray() );
         commandsCombo.addItemListener( new ItemListener(){
@@ -403,7 +388,7 @@ public class Runner {
      * Run Text Runner with commandline args
      * 
      * @param args String[]
-     * @throws CommandException
+     * @throws RunException
      */
     public void text(String[] args) throws RunException {
 
@@ -478,7 +463,7 @@ public class Runner {
      * runs a {@link #text}.
      * 
      * @param args String[]
-     * @throws CommandException
+     * @throws RunException
      */
     public void run(String[] args) throws RunException {
 
