@@ -1,8 +1,6 @@
 package com.tobedevoured.command;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.GraphicsEnvironment;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -10,16 +8,12 @@ import java.awt.event.ItemListener;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 import org.apache.commons.lang.reflect.ConstructorUtils;
 import org.slf4j.Logger;
@@ -270,6 +264,14 @@ public class Runner {
         
         final JPanel middlePanel = new JPanel();
         middlePanel.setVisible( false );
+        middlePanel.setLayout(new GridBagLayout());
+        final GridBagConstraints left = new GridBagConstraints();
+        left.anchor = GridBagConstraints.EAST;
+        final GridBagConstraints right = new GridBagConstraints();
+        right.weightx = 2.0;
+        right.fill = GridBagConstraints.HORIZONTAL;
+        right.gridwidth = GridBagConstraints.REMAINDER;
+        middlePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         
         List<String> desc = new ArrayList<String>();
         desc.add( "" );
@@ -288,14 +290,14 @@ public class Runner {
                           middlePanel.removeAll();
                           for ( String name : method.getParamTypes().keySet() ) {
                               JLabel textLabel = new JLabel( name );
-                              middlePanel.add( textLabel );
+                              middlePanel.add( textLabel, left );
                               
                               Object defaultValue = method.getDefaults().get( name );
                               if ( defaultValue == null || ((String[])defaultValue).length == 1 ) {
                                 
-                                  JTextField text = new JTextField( 30 );                          
+                                  JTextField text = new JTextField( 30 );
                                   text.setText( ((String[])defaultValue)[0] );
-                                  middlePanel.add( text );
+                                  middlePanel.add( text, right );
                                   
                               // If not a String, then can only be a String[]
                               } else {
@@ -303,8 +305,8 @@ public class Runner {
                                   middlePanel.add( params );
                               }                                                   
                           }
-                          middlePanel.setVisible( true );                      
-                          frame.pack();                              
+                          middlePanel.setVisible( true );
+                          frame.pack();
                       } else {
                           middlePanel.setVisible( false );
                           frame.pack();    
@@ -348,7 +350,7 @@ public class Runner {
                     if ( component instanceof JTextField ) {
                         params.add( ((JTextField)component).getText() );
                     } else if ( component instanceof JComboBox ) {
-                        params.add( (String)((JComboBox)component).getSelectedItem() );
+                        params.add(((JComboBox)component).getSelectedItem());
                     }
                 }
                 frame.dispose();

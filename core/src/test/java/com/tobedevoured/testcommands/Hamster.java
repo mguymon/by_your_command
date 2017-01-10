@@ -5,6 +5,7 @@ import com.tobedevoured.command.Runner;
 import com.tobedevoured.command.annotation.ByYourCommand;
 import com.tobedevoured.command.annotation.Command;
 import com.tobedevoured.command.annotation.CommandParam;
+import com.tobedevoured.command.annotation.CommandParams;
 
 @ByYourCommand
 public class Hamster {
@@ -15,7 +16,11 @@ public class Hamster {
 	}
 	
 	@Command
-	public void sleep() {
+	@CommandParams({
+        @CommandParam(name = "one", type = String.class),
+        @CommandParam(name = "two", type = String.class)
+    })
+	public void sleep(String one, String two) {
 		System.out.println( "Zzzzzz" ); 
 	}
 	
