@@ -97,7 +97,7 @@ public class Runner {
         try {
             manager.scanForCommands( packages );
         } catch (CommandException commandException) {
-            new RunException( commandException );
+           throw new RunException( commandException );
         }
     }
 
@@ -209,8 +209,7 @@ public class Runner {
      * @throws CommandException failed to exec command
      */
     public CommandMethod exec( String notation, List<Object> params ) throws CommandException {
-        
-         logger.debug( "Executing {}", notation );
+        logger.debug( "Executing {}", notation );
          
         CommandMethod commandMethod = manager.exec( notation, params );
         

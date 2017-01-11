@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.tobedevoured.command</groupId>
         <artifactId>parent</artifactId>
-        <version>0.3.3</version>
+        <version>0.3.4</version>
     </parent>
     <artifactId>core</artifactId>
     <packaging>jar</packaging>

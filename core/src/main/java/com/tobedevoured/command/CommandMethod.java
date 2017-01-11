@@ -1,6 +1,7 @@
 package com.tobedevoured.command;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -39,8 +40,8 @@ public class CommandMethod {
 	public CommandMethod( String name, String methodName ) {
 		this.name = name;
 		this.methodName = methodName;
-		this.paramTypes = new HashMap<String,Class>();
-		this.defaults   = new HashMap<String,Object>();
+		this.paramTypes = new LinkedHashMap<String, Class>();
+		this.defaults   = new LinkedHashMap<String, Object>();
 	}
 
 	public String getName() {

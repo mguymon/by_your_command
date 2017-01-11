@@ -113,12 +113,11 @@ public class ByYourCommandManager {
             CommandDependency execCommandDependency = newCommandDependency(clazz);
             execCommandDependency.setTarget( clazz );
             
-            // Plan that buids the exec target
+            // Plan on how to exec the target
             Plan plan = createObjectPlan();
             
             plan.setTarget( clazz );
-            
-            
+
             // Determine the name that will be used
             String target = null;
             if ( execCommand.name().length() > 0 ) {
@@ -209,7 +208,7 @@ public class ByYourCommandManager {
                         for ( CommandParam commandParam : commandParams ) {
                             if ( commandParam.defaultValues().length > 0 ) {
                                 commandMethod.addParam( commandParam.name(), commandParam.type(), commandParam.defaultValues() );
-                                
+
                             } else {
                                 commandMethod.addParam( commandParam.name(), commandParam.type() );
                             }
