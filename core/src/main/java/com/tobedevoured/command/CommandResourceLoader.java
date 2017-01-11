@@ -3,7 +3,7 @@ package com.tobedevoured.command;
 import com.metapossum.utils.scanner.reflect.ClassResourceLoader;
 
 /**
- * Scans the Classpath for {@link ByYourCommand} anntotated Classes
+ * Scans the Classpath for @ByYourCommand anntotated Classes
  * 
  * @author Michael Guymon
  *

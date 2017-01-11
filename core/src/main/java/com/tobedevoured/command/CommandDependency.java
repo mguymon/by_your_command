@@ -6,8 +6,6 @@ import java.util.Set;
 /**
  * The Dependencies required to execute a {@link CommandMethod}
  * 
- * Contains functionality for unimplemented Spring support
- * 
  * @author Michael Guymon
  */
 public class CommandDependency {
@@ -34,18 +32,18 @@ public class CommandDependency {
 	}
 	
 	/**
-	 * Get the {@link Set<String>} of resource paths to Spring contexts
+	 * Get the Set of resource paths to Spring contexts
 	 * 
-	 * @return {@link Set<String>}
+	 * @return Set
 	 */
 	public Set<String> getContexts() {
 		return contexts;
 	}
 	
 	/**
-	 * Set the {@link Set<String>} of resource paths to Spring contexts
+	 * Set the SEt of resource paths to Spring contexts
 	 * 
-	 * @param contexts {@link Set<String>}
+	 * @param contexts Set
 	 */
 	public void setContexts(Set<String> contexts) {
 		this.contexts = contexts;

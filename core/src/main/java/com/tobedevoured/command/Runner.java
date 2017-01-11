@@ -40,8 +40,8 @@ public class Runner {
     /**
      * Construct new instance
      *
-     * @param _package
-     * @throws RunException
+     * @param _package String
+     * @throws RunException fails to start Runner
      */
     public Runner(String _package) throws RunException {
         Config config = ConfigFactory.load();
@@ -54,7 +54,7 @@ public class Runner {
     /**
      * Construct new instance
      * 
-     * @throws RunException
+     * @throws RunException fails to start Runner
      */
     public Runner() throws RunException {
         
@@ -122,7 +122,7 @@ public class Runner {
     /**
      * Get list of all commands
      * 
-     * @return Set<String>
+     * @return Set
      */
     public Set<String> getCommandsDesc() {
         return manager.getCommandsDesc();
@@ -131,7 +131,7 @@ public class Runner {
     /**
      * Get list of all groups
      * 
-     * @return Set<String>
+     * @return Set
      */
     public Set<String> getGroups() {
         return manager.getGroups().keySet();
@@ -192,9 +192,9 @@ public class Runner {
     /**
      * Exec a notation
      * 
-     * @param notation
+     * @param notation String
      * @return {@link CommandMethod}
-     * @throws CommandException
+     * @throws CommandException faile to exec command
      */
     public CommandMethod exec( String notation ) throws CommandException {
         return exec( notation, null );
@@ -206,7 +206,7 @@ public class Runner {
      * @param notation String
      * @param params {@link List}
      * @return {@link CommandMethod}
-     * @throws CommandException
+     * @throws CommandException failed to exec command
      */
     public CommandMethod exec( String notation, List<Object> params ) throws CommandException {
         
@@ -221,7 +221,7 @@ public class Runner {
      * Exec default for a Class
      * 
      * @param clazz Class
-     * @throws CommandException
+     * @throws CommandException failed to exec default command
      */
     public void execDefault( Class clazz ) throws CommandException {
         manager.execDefault( clazz );
@@ -230,7 +230,7 @@ public class Runner {
     /**
      * Run GUI Runner
      *
-     * @throws RunException
+     * @throws RunException failed to start GUI
      */
     public void gui() throws RunException {
 
@@ -388,7 +388,7 @@ public class Runner {
      * Run Text Runner with commandline args
      * 
      * @param args String[]
-     * @throws RunException
+     * @throws RunException failed to start text runner
      */
     public void text(String[] args) throws RunException {
 
@@ -459,11 +459,11 @@ public class Runner {
     }
     
     /**
-     * Run Runner, will run {@link #gui} if not {@link GraphicEnvironment#isHeadLess}, otherwise
+     * Run Runner, will run {@link #gui} if not GraphicEnvironment#isHeadLess, otherwise
      * runs a {@link #text}.
      * 
      * @param args String[]
-     * @throws RunException
+     * @throws RunException failed to start Runner
      */
     public void run(String[] args) throws RunException {
 
@@ -484,7 +484,7 @@ public class Runner {
      * Calls {@link #run(String[])}
      * 
      * @param args String[] args
-     * @throws RunException
+     * @throws RunException failed to start Runner
      */
     public static void main(String[] args) throws RunException {
         (new Runner()).run(args);

@@ -25,7 +25,7 @@ public class SpringRunner extends Runner {
      * Alias for {@link #run(String[])}
      *
      * @param args String[] args
-     * @throws RunException
+     * @throws RunException fails to start Runner
      */
     public static void main(String[] args) throws RunException {
         ( new SpringRunner() ).run(args);

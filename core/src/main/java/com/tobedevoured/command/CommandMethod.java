@@ -72,7 +72,7 @@ public class CommandMethod {
 	/**
 	 * Map of method params
 	 * 
-	 * @return {@link Map<String,Class>}
+	 * @return Map
 	 */
 	public Map<String, Class> getParamTypes() {
 		return paramTypes;
@@ -106,7 +106,7 @@ public class CommandMethod {
 	/**
 	 * Set if this CommandMethod should exist after execution
 	 * 
-	 * @return boolean
+	 * @param exit boolean
 	 */
 	public void setExit(boolean exit) {
 		this.exit = exit;

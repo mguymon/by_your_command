@@ -35,6 +35,8 @@ public class Plan {
 
     /**
      * Add a {@link com.tobedevoured.command.annotation.Command}
+     *
+     * @param command CommandMethod
      */
     public void addCommand( CommandMethod command ) {
         commands.put(command.getName(), command );
@@ -43,8 +45,10 @@ public class Plan {
     /**
      * Execute the default Command with params for this Plan
      * 
-     * @param params List<Object>
+     * @param params List
+     * @param resolver DependencyResolvable
      * @return {@link CommandMethod} that was executed
+     * @throws CommandException fails to exec command
      */
     public CommandMethod exec( List<Object> params, DependencyResolvable resolver ) throws CommandException {
         if ( defaultCommand != null ) {
@@ -61,7 +65,9 @@ public class Plan {
      * 
      * @param commandNotation String
      * @param params List
+     * @param resolver DependencyResolvable
      * @return {@link CommandMethod} that was executed
+     * @throws CommandException fails to exec command
      */
     public CommandMethod exec( String commandNotation, List<Object> params, DependencyResolvable resolver ) throws CommandException {
         String[] notation = commandNotation.split(":");
@@ -95,7 +101,9 @@ public class Plan {
      * 
      * @param command {@link CommandMethod}
      * @param params List
+     * @param resolver DependencyResolvable
      * @return {@link CommandMethod} that was executed
+     * @throws CommandException fails to exec command
      */
     public CommandMethod exec( CommandMethod command, List<Object> params, DependencyResolvable resolver) throws CommandException {
         
@@ -138,7 +146,7 @@ public class Plan {
     /**
      * List of descriptions for the commands in this Plan
      * 
-     * @return List<String>
+     * @return List
      */
     public List<String> commandsDesc() {
         List<String> commandsDesc = new ArrayList<String>();

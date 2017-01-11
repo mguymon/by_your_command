@@ -78,10 +78,10 @@ public class ByYourCommandManager {
     }
     
     /**
-     * Scans a List of packages for {@link ByYourCommand} annotated Classes
+     * Scans a List of packages for @ByYourCommand annotated Classes
      * 
-     * @param packages List<String>
-     * @throws CommandException
+     * @param packages List
+     * @throws CommandException fails scan for commands
      */
     public void scanForCommands( List<String> packages ) throws CommandException {
         for( String _package: packages ) {
@@ -90,10 +90,10 @@ public class ByYourCommandManager {
     }
     
     /**
-     * Scan a package for classes annotated with {@link ByYourCommand} and register them.
+     * Scan a package for classes annotated with @ByYourCommand and register them.
      * 
-     * @param _package
-     * @throws CommandException
+     * @param _package String
+     * @throws CommandException fails to scan for commands
      */
     public void scanForCommands( String _package ) throws CommandException {
         Set<Class<?>> execCommands = null;
@@ -261,7 +261,7 @@ public class ByYourCommandManager {
      * 
      * @param commandNotation String
      * @return {@link CommandMethod}
-     * @throws CommandException
+     * @throws CommandException fails to exec
      */
     public CommandMethod exec( String commandNotation ) throws CommandException {
         return exec(commandNotation, null );
@@ -274,7 +274,7 @@ public class ByYourCommandManager {
      * @param commandNotation String
      * @param params List
      * @return {@link CommandMethod}
-     * @throws CommandException
+     * @throws CommandException fails to exec
      */
     public CommandMethod exec(String commandNotation, List<Object> params ) throws CommandException {
         logger.debug( "execing {}", commandNotation );
@@ -314,7 +314,7 @@ public class ByYourCommandManager {
      * Exec the Class' default command
      *
      * @param clazz Class
-     * @throws CommandException
+     * @throws CommandException fails to exec default command
      */
     public void execDefault( Class clazz ) throws CommandException {
         Plan plan = getPlan( clazz );
@@ -330,7 +330,7 @@ public class ByYourCommandManager {
      * Exec a group of commands
      * 
      * @param group String
-     * @throws CommandException
+     * @throws CommandException fails to exec group of commands
      */
     public void execGroup( String group ) throws CommandException {
         logger.debug( "execing group {}", group );
@@ -347,7 +347,7 @@ public class ByYourCommandManager {
      * is called.
      * 
      * @param dependencyManager {@link DependencyResolvable}
-     * @throws CommandException
+     * @throws CommandException fail to register a dependency resolver;
      */
     public void registerDependencyResolver(String dependencyManager) throws CommandException {
         Class dependencyResolverClass = null;
@@ -386,7 +386,7 @@ public class ByYourCommandManager {
     /**
      * Get Map of {@link Plan} for a Class
      * 
-     * @return {@link Map<Class,Plan>}
+     * @return Map
      */
     public Map<Class, Plan> getPlans() {
         return plans;
@@ -418,27 +418,27 @@ public class ByYourCommandManager {
     }
     
     /**
-     * Get {@link Set<String>} of all commands registered
+     * Get Set of all commands registered
      * 
-     * @return {@link Set<String>}
+     * @return SEt
      */
     public Set<String> getCommandsDesc() {
         return commandsDesc;
     }
 
     /**
-     * Get {@link Map<String, Set<String>} of all groups registered
+     * Get Map of all groups registered
      * 
-     * @return {@link Map<String, Set<String>}
+     * @return Map
      */
     public Map<String, Set<String>> getGroups() {
         return groups;
     }
     
     /**
-     * Get {@link Map<String,CommandDependency>} for all commands registered
+     * Get Map for all commands registered
      * 
-     * @return {@link Map<String,CommandDependency>}
+     * @return Map
      */
     public Map<String, CommandDependency> getCommands() {
         return commands;
